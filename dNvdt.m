@@ -15,13 +15,27 @@ else
 end
 
 photons_absorbed = [photons_absorbed;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)]; 
-vdot = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2)*(phi(3)*alpha/data.maxdepth);
+vintegral = simpsons(Ik3d(1,:)-Ik3d(2,:),...
+                data.z(1),data.maxdepth,data.zsteps);
+vdot = vintegral*(alpha*phi(3)/data.maxdepth);
+% vintegral = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2);
+% vdot = vintegral*(phi(3)*alpha/data.maxdepth);    
 if v>=0.99999999999999
     vdot = 0; 
 elseif v<=0.000000000000
     vdot = 0; 
 end
-Ndot = trapz(data.z,pmax*photons_absorbed./(pmax./phi'+photons_absorbed),2).*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
+
+N1i = simpsons(pmax*photons_absorbed(1,:)./(pmax/phi(1)+photons_absorbed(1,:)),...
+                data.z(1),data.maxdepth,data.zsteps);
+N2i = simpsons(pmax*photons_absorbed(2,:)./(pmax./phi(2)+photons_absorbed(2,:)),...
+                data.z(1),data.maxdepth,data.zsteps); 
+N3i = simpsons(pmax*photons_absorbed(3,:)./(pmax./phi(3)+photons_absorbed(3,:)),...
+                data.z(1),data.maxdepth,data.zsteps); 
+Nintegral = [N1i, N2i, N3i];
+Ndot = Nintegral'.*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
+% Nintegral = trapz(data.z,pmax*photons_absorbed./(pmax./phi'+photons_absorbed),2);
+% Ndot = Nintegral.*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
 Nvdot = [Ndot;vdot];
-%keyboard
+% keyboard
 end

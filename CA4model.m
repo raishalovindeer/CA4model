@@ -12,9 +12,15 @@
 %% Initial & Calculated Values
 load('CA4MODEL.mat')
 
+<<<<<<< HEAD
 %data.light_in = data.In.daylight*457;   % converted W/m2 to umol/m2/s
 data.light_in = data.In.blue*100000;
 v = 0.1;                                % starting at white light
+=======
+data.light_in = data.In.daylight*457;   % converted W/m2 to umol/m2/s
+%data.light_in = data.In.green*100000;
+v = 0.5;                                % starting at white light
+>>>>>>> simpsons
 Nv0 = [1E16;1E16;1E16;v];               % [3a;3c;3d;v] in cells/m^3 (1000L)
 data.phigreen = [3e12,3e12,3e12];
 data.phiblue = [1.3e12,1.3e12,1.3e12];
@@ -22,7 +28,7 @@ data.phiblue = [1.3e12,1.3e12,1.3e12];
 data.alpha.green = 0.0000500;
 data.alpha.blue = 0.00001;
 data.CHL = 0.02; % within range 0.02 - 25 mg m^-3
-data.Coccos = 10;                    % mg m^-3
+data.Coccos = 0;                    % mg m^-3
 data.zsteps = 21;
 data.maxdepth = 100;
 data.L = data.L/(60*60);                % /s
