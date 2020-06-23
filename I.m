@@ -10,7 +10,10 @@ background = data.k(:,5);
 Achl = data.k(:,6);
 Bchl = data.k(:,7);
 CHL = Achl.*(data.CHL.^-Bchl);
+Coccos = data.Coccos*data.k(:,8);
 depth = data.z;
 
-Irradiance = data.light_in.*exp(-(fixedSyn*Nv(1:2)+flexSyn*Nv(3)+background+CHL)*depth);
+Irradiance = data.light_in.*...
+    exp(-(fixedSyn*Nv(1:2)+flexSyn*Nv(3)...
+    +background+CHL+Coccos)*depth);
 end
