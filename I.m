@@ -9,7 +9,12 @@ flexSyn = (v * pigment1) + ((1-v) * pigment2);
 background = data.k(:,5);
 Achl = data.k(:,6);
 Bchl = data.k(:,7);
-CHL = (Achl.*(data.CHL.^-Bchl))*data.CHL;
+if data.CHL >= 0.02
+    CHL = (Achl.*(data.CHL.^-Bchl))*data.CHL;
+elseif data.CHL<=0.02
+    CHL = 0;
+end
+
 Coccos = data.Coccos*data.k(:,8);
 depth = data.z;
 

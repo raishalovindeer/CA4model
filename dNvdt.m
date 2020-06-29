@@ -18,7 +18,7 @@ photons_absorbed = [photons_absorbed;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)];
 % vintegral = simpsons(Ik3d(1,:)-Ik3d(2,:),...
 %                 data.z(1),data.maxdepth,data.zsteps);
 % vdot = vintegral*(alpha*phi/data.maxdepth);
-vintegral = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2);
+vintegral = trapz(data.z(3:end),Ik3d(1,3:end)-Ik3d(2,3:end),2);
 vdot = vintegral*(phi*alpha/data.maxdepth);    
 if v>=0.99999999999999
     vdot = 0; 

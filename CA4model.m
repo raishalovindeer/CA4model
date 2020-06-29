@@ -10,13 +10,13 @@
 % alpha, acclimation parameter to a color (dimensionless)
 
 %% Initial & Calculated Values
-load('CA4MODEL.mat')
+load('CA4MODEL_2673.mat')
 
 data.light_in = data.In.daylight*457;   % converted W/m2 to umol/m2/s
 %data.light_in = data.In.green;
-v = 0.9;                                % starting at white light
+v = 0.5;                                % starting at white light
 Nv0 = [1E16;1E16;1E16;v];               % [3a;3c;3d;v] in cells/m^3 (1000L)
-data.CHL = 0.02;                        % from 0.02 - 25 mg m^-3
+data.CHL = 0;                        % from 0.02 - 25 mg m^-3
 data.Coccos = 0;                        % mg m^-3
 data.zsteps = 21;
 data.maxdepth = 100;
