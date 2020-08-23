@@ -10,21 +10,26 @@
 % alpha, acclimation parameter to a color (dimensionless)
 
 %% Initial & Calculated Values
-load('CA4MODEL_2673.mat')
+load('CA4MODEL_8020.mat')
 
-data.light_in = data.In.daylight*457;   % converted W/m2 to umol/m2/s
-%data.light_in = data.In.green;
-v = 0.5;                                % starting at white light
-Nv0 = [1E16;1E16;1E16;v];               % [3a;3c;3d;v] in cells/m^3 (1000L)
-data.CHL = 0;                        % from 0.02 - 25 mg m^-3
+% data.light_in = data.In.daylight*10;   % W/m2
+% data.light_in = data.In.blue;
+v = 0.5;                               % starting at white light
+Nv0 = [1E6;1E6;1E6;v];                 % [3a;3c;3d;v] in cells/m^3 (1000L)
+data.alpha.green = 0.007;
+data.alpha.blue = 0.095;
+data.phiblue = 1.3E6;
+data.phigreen = 3.0E6;
+data.k(:,1:4) = data.k(:,1:4)*1E-13;
+data.CHL = 0;                          % from 0.02 - 25 mg m^-3
 data.Coccos = 0;                        % mg m^-3
 data.zsteps = 21;
 data.maxdepth = 100;
-data.L = data.L/(60*60);                % /s
+data.L = 0.005/(60*60);                 % /s
 data.z = linspace(0,data.maxdepth,data.zsteps);
-tspan = [0,60*60*24*80];                % seconds
+tspan = [0,60*60*24*100];                % seconds
 
-[T,Nv] = ode45(@(t,Nv) dNvdt(Nv,data),tspan,Nv0);
+[T,Nv] = ode45(@(t,Nv) dNvdt(t,Nv,data),tspan,Nv0);
 
 N = Nv(:,1:3);
 v = Nv(:,4);

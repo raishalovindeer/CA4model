@@ -1,5 +1,7 @@
-function Nvdot = dNvdt(Nv,data)
-% Nvdot = dNvdt(Nv,data)
+function Nvdot = dNvdt(t,Nv,data)
+% Nvdot = dNvdt(t,Nv,data)
+
+data.light_in = shift(t, data);
 
 v = Nv(4);
 Irradiance = I(Nv,data);
@@ -26,4 +28,8 @@ end
 Nintegral = trapz(data.z,pmax*photons_absorbed./(pmax/phi+photons_absorbed),2);
 Ndot = Nintegral.*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
 Nvdot = [Ndot;vdot];
+
+% data.light_in = shift(t, data);
+% plot(data.wavelengths,data.light_in)
+% keyboard
 end
