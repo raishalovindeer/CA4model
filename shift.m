@@ -1,8 +1,8 @@
 function oscillation = shift(t, data)
 % oscillation = shift(data)
 
-A = 0.5;    % oscillation frequency
-F = cos(A*t);
-% keyboard
-oscillation = data.In.blue * F + (1-F) * data.In.green;
-
+F = sin(data.A*(t/(60*60*24)));
+oscillation = data.In.blue*F;
+if F < 0
+    oscillation = data.In.green*(1-F);
+end
