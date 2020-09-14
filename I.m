@@ -1,7 +1,7 @@
 function Irradiance = I(Nv,data)
 % Irradiance = I(Nv,data)
 
-v = Nv(4);
+v = transform(Nv(4));
 fixedSyn = data.k(:,1:2);
 pigment1 = data.k(:,3);
 pigment2 = data.k(:,4);
