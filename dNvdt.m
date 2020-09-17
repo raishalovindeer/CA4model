@@ -21,12 +21,6 @@ photons_absorbed = [photons_absorbed;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)];
 vintegral = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2);
 vdot = vintegral*(phi*alpha/data.maxdepth);    
 
-% if v+vdot<0
-%     vdot = 0;
-% % elseif v+vdot>1
-% %     vdot = 0;
-% end
-
 Nintegral = trapz(data.z,pmax*photons_absorbed./(pmax/phi+photons_absorbed),2);
 Ndot = Nintegral.*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
 Nvdot = [Ndot;vdot];
