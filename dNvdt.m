@@ -1,7 +1,8 @@
 function Nvdot = dNvdt(t,Nv,data)
 % Nvdot = dNvdt(t,Nv,data)
 
-data.light_in = shift(t, data);
+%%% Remove comment below for oscillating LED lights
+% data.light_in = shift(t, data);
 
 v = transform(Nv(4));
 
