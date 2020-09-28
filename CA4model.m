@@ -18,7 +18,7 @@ data.Coccos = 0;                    % mg m^-3
 %%% Turn on oscillating light in dNvdt.m 
 %%% Set frequency of ocillations, A below
 %%% | 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
-data.A = 0.3; 
+% data.A = 0.3; 
 
 %%% Acclimation parameters
 v = 0.5;                % Acclimation starting point
@@ -44,13 +44,13 @@ data.L = 0.01/(60*60); % /second
 data.k(:,1:4) = data.k(:,1:4)*1E-14;
 
 %%% Depth of the mixed layer / water column (m)
-data.maxdepth = 10;     
+data.maxdepth = 100;     
 
 data.zsteps = 21;
 data.z = linspace(0,data.maxdepth,data.zsteps);
 
 %%% Time span of the model run
-tspan = [0,60*60*24*3000]; % seconds
+tspan = [0,60*60*24*30000]; % seconds
 
 %% Model Run
 
