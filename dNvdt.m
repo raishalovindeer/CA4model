@@ -7,7 +7,7 @@ function Nvdot = dNvdt(t,Nv,data)
 v = transform(Nv(4));
 
 Irradiance = I(Nv,data);
-[photons_absorbed,Ik3d] = Gam(Irradiance,data);
+[Ik3ac,Ik3d] = Gam(Irradiance,data);
 if Irradiance(125,2)>=Irradiance(100,2)
     alpha = data.alpha.green;
     phi = data.phigreen;
@@ -18,7 +18,8 @@ else
     pmax = data.pmax_b/(60*60*24);
 end
 
-photons_absorbed = [photons_absorbed;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)]; 
+photons_absorbed = [Ik3ac;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)]; 
+
 vintegral = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2);
 vdot = vintegral*(phi*alpha/data.maxdepth);    
 

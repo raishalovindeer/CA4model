@@ -7,12 +7,12 @@ load('CA4MODELDATA.mat')
 
 %%% Control In-coming light spectra
 %%% Constant LED light
-data.light_in = data.In.blue;     % Constant LED
+data.light_in = data.In.blue;           % Constant LED
 
 %%% Constant Daylight with absorption parameters
-% data.light_in = data.In.daylight;   % Daylight, W/m2 conv. to mol/m2/s
-data.CHL = 0;                       % from 0.02 - 25 mg m^-3
-data.Coccos = 0;                    % mg m^-3
+% data.light_in = data.In.daylight;     % Daylight, W/m2 conv. to mol/m2/s
+data.CHL = 0;                           % from 0.02 - 25 mg m^-3
+data.Coccos = 0;                        % mg m^-3
 
 %%% For Time-dependent oscillating light function
 %%% Turn on oscillating light in dNvdt.m 
@@ -21,9 +21,9 @@ data.Coccos = 0;                    % mg m^-3
 % data.A = 0.3; 
 
 %%% Acclimation parameters
-v = 0.5;                % Acclimation starting point
+v = 0.5;                    % Acclimation starting point
 data.alpha.blue = 0.000065; % Controls acclimation time in blue light
-data.alpha.green = 0.00005;% Controls acclimation time in green light
+data.alpha.green = 0.00005; % Controls acclimation time in green light
 
 %%% Initial abundance (cells/m^3) & initial v
 %%% [3a;3c;3d;v]
@@ -33,24 +33,24 @@ Nv0 = [1E6;1E6;1E6;v];
 data.phiblue = 1.2E11;
 data.phigreen = 2.5E11;
 
-%%% Maximum specific growth rate
+%%% Maximum specific growth rate (/day)
 data.pmax_g = 0.700;
 data.pmax_b = 0.500;
 
-%%% Loss rate
-data.L = 0.01/(60*60); % /second
+%%% Loss rate (/day) 
+data.L = 0.4/(24*60*60); % /second
 
 %%% Changing absorption spectra to specific abs spectra
 data.k(:,1:4) = data.k(:,1:4)*1E-14;
 
 %%% Depth of the mixed layer / water column (m)
-data.maxdepth = 100;     
+data.maxdepth = 20;     
 
 data.zsteps = 21;
 data.z = linspace(0,data.maxdepth,data.zsteps);
 
 %%% Time span of the model run
-tspan = [0,60*60*24*30000]; % seconds
+tspan = [0,60*60*24*5000]; % seconds
 
 %% Model Run
 
