@@ -3,14 +3,14 @@
 % For phytoplankton with 2 fixed & 1 flexible pigment phenotype
 
 %% Initial Values
-load('CA4MODELDATA.mat')
+load('CA4MODELDATA3.mat')
 
 %%% Control In-coming light spectra
 %%% Constant LED light
-data.light_in = data.In.blue;           % Constant LED
+data.light_in = data.In.blue;     % Constant LED
 
 %%% Constant Daylight with absorption parameters
-% data.light_in = data.In.daylight;     % Daylight, W/m2 conv. to mol/m2/s
+% data.light_in = data.In.daylight;  % Daylight, W/m2
 data.CHL = 0;                           % from 0.02 - 25 mg m^-3
 data.Coccos = 0;                        % mg m^-3
 
@@ -18,30 +18,29 @@ data.Coccos = 0;                        % mg m^-3
 %%% Turn on oscillating light in dNvdt.m 
 %%% Set frequency of ocillations, A below
 %%% | 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
-% data.A = 0.3; 
+data.A = 0.3; 
 
 %%% Acclimation parameters
-v = 0.5;                    % Acclimation starting point
-data.alpha.blue = 0.065; % Controls acclimation time in blue light
-data.alpha.green = 0.05; % Controls acclimation time in green light
+v = 0.5;                % Acclimation starting point
+data.alpha.blue = 0.95; % Controls acclimation time in blue light
+data.alpha.green = 0.07;% Controls acclimation time in green light
 
 %%% Initial abundance (cells/m^3) & initial v
 %%% [3a;3c;3d;v]
-Nv0 = [1E3;1E3;1E3;v];
+Nv0 = [1E6;1E6;1E6;v];
 
 %%% Photosynthetic efficiency (cells/umol photons)
 data.phiblue = 12E11;
 data.phigreen = 25E11;
 
-%%% Maximum specific growth rate (/day)
+%%% Maximum specific growth rate
+data.pmax_g = 0.800;
 data.pmax_b = 0.500;
-data.pmax_g = 0.700;
 
+%%% Loss rate
+data.L = 0.005/(60*60); % /second
 
-%%% Loss rate (/day) 
-data.L = 0.025/(24*60*60); % /second
-
-%%% Specific absorption (m2/cell)
+%%% Changing absorption spectra to specific abs spectra
 data.k(:,1:4) = data.k(:,1:4)*1E-12;
 
 %%% Depth of the mixed layer / water column (m)
