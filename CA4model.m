@@ -22,35 +22,36 @@ data.Coccos = 0;                        % mg m^-3
 
 %%% Acclimation parameters
 v = 0.5;                    % Acclimation starting point
-data.alpha.blue = 0.000065; % Controls acclimation time in blue light
-data.alpha.green = 0.00005; % Controls acclimation time in green light
+data.alpha.blue = 0.065; % Controls acclimation time in blue light
+data.alpha.green = 0.05; % Controls acclimation time in green light
 
 %%% Initial abundance (cells/m^3) & initial v
 %%% [3a;3c;3d;v]
-Nv0 = [1E6;1E6;1E6;v];
+Nv0 = [1E3;1E3;1E3;v];
 
 %%% Photosynthetic efficiency (cells/umol photons)
-data.phiblue = 1.2E11;
-data.phigreen = 2.5E11;
+data.phiblue = 12E11;
+data.phigreen = 25E11;
 
 %%% Maximum specific growth rate (/day)
-data.pmax_g = 0.700;
 data.pmax_b = 0.500;
+data.pmax_g = 0.700;
+
 
 %%% Loss rate (/day) 
-data.L = 0.4/(24*60*60); % /second
+data.L = 0.025/(24*60*60); % /second
 
-%%% Changing absorption spectra to specific abs spectra
-data.k(:,1:4) = data.k(:,1:4)*1E-14;
+%%% Specific absorption (m2/cell)
+data.k(:,1:4) = data.k(:,1:4)*1E-12;
 
 %%% Depth of the mixed layer / water column (m)
-data.maxdepth = 20;     
+data.maxdepth = 100;     
 
 data.zsteps = 21;
 data.z = linspace(0,data.maxdepth,data.zsteps);
 
 %%% Time span of the model run
-tspan = [0,60*60*24*5000]; % seconds
+tspan = [0,60*60*24*10000]; % seconds
 
 %% Model Run
 
