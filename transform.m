@@ -1,5 +1,5 @@
 function y = transform(v)
 % y = transform(v)
-% transform dv/dt from -inf to inf and then take the tangent of this funct
+% limits dv/dt between 0 and 1
     
 y = 0.5+0.5*(tanh(v));
