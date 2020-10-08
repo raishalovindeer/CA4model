@@ -19,12 +19,11 @@ else
 end
 
 photons_absorbed = [Ik3ac;v*Ik3d(1,:)+(1-v)*Ik3d(2,:)]; 
-
 vintegral = trapz(data.z,Ik3d(1,:)-Ik3d(2,:),2);
 vdot = vintegral*(phi*alpha/data.maxdepth);    
 
 Nintegral = trapz(data.z,pmax*photons_absorbed./(pmax/phi+photons_absorbed),2);
-Ndot = Nintegral.*Nv(1:3,:)/data.maxdepth-data.L*Nv(1:3,:);
+Ndot = ((Nintegral/data.maxdepth).*Nv(1:3,:))-data.L*Nv(1:3,:);
 Nvdot = [Ndot;vdot];
 
 % plot(data.wavelengths,data.light_in)
