@@ -1,8 +1,11 @@
 function oscillation = shift(t, data)
-% oscillation = shift(data)
+% oscillation = shift(t, data)
 
-F = sin(data.A*(t/(60*60*24)));
-oscillation = data.In.cyan*F;
-if F < 0
-    oscillation = data.In.green*(1-F);
+F = sin(data.frequency*(t/(60*60*24)));
+plot(t,F)
+keyboard
+if F > 0
+    oscillation = data.Light1;
+else
+    oscillation = data.Light2;
 end

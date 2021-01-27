@@ -2,34 +2,38 @@
 % Modified from Stomp et al 2008 by R. Lovindeer & F. Primeau
 % For phytoplankton with 2 fixed & 1 flexible pigment phenotype
 
-%% Initial Values
-load('CA4MODELDATA.mat')
+%% Initial Conditions
+close all
+clear all
+load('CA4MODELDATA_withcyan.mat')
 
-%%% Control In-coming light spectra
-%%% Constant LED light
-% data.light_in = data.In.white;     % Constant LED
+%%% Control In-coming light spectra (0 for off, 1 for on)
+data.Constant_LED = 0;
+    data.LED = data.In.green;
+    
+data.LED_Oscillation = 1;
+    data.Light1 = data.In.blue;
+    data.Light2 = data.In.cyan_faux;
+    data.frequency = 1;
+    % frequency: 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
+    % colors: blue, green, cyan, cyan_faux, white
+    
+data.Daylight = 0;                   
 
-%%% Constant Daylight with absorption parameters
-data.light_in = data.In.daylight;  % Daylight, W/m2
-data.CHL = 0;                           % from 0.02 - 25 mg m^-3
-data.Coccos = 20;                        % mg m^-3
+%%% Absorption parameters
+data.CHL = 0;                       % valid from 0.02 - 25 mg m^-3
+data.Coccos = 0;                    % mg m^-3
 
-%%% For Time-dependent oscillating light function
-%%% Turn on oscillating light in dNvdt.m 
-%%% Set frequency of ocillations, A below
-%%% | 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
-% data.A = 0.1; 
+%%% Chromatic acclimation (CA4) parameters
+v = 0.5;                 % Acclimation starting point
+data.alpha.blue = 0.95;  % Controls acclimation time in blue light
+data.alpha.green = 0.70; % Controls acclimation time in green light
 
-%%% Acclimation parameters
-v = 0.5;                % Acclimation starting point
-data.alpha.blue = 0.95; % Controls acclimation time in blue light
-data.alpha.green = 0.70;% Controls acclimation time in green light
-
-%%% Initial abundance (cells/m^3) & initial v
-%%% [3a;3c;3d;v]
+%%% Initial abundance (cells/m^3) & v & light intensity
+%%% [3a;3c;3d;v;l]
 Nv0 = [1E6;1E6;1E6;v];
 
-%%% Photosynthetic efficiency (cells/umol photons)
+%%% Photosynthetic efficiency (cells/(umol photons))
 data.phiblue = 1.2E6;
 data.phigreen = 2.4E6;
 
@@ -43,58 +47,33 @@ data.L = 0.005/(60*60); % /second
 %%% Changing absorption spectra to specific abs spectra
 data.k(:,1:4) = data.k(:,1:4)*1E-12;
 
-%%% Depth of the mixed layer / water column (m)
-data.maxdepth = 110;     
+%%% Depth of water column (m)
+data.maxdepth = 1;     
 
 data.zsteps = 21;
 data.z = linspace(0,data.maxdepth,data.zsteps);
 
-%%% Time span of the model run
+%%% Time span of simulation
 tspan = [0,60*60*24*10000]; % seconds
 
-%% Model Run
+%% Model Simulation
+% dNvdt.m calls functions I.m, Gam.m, shift.m, and transform.m
 
 [T,Nv] = ode45(@(t,Nv) dNvdt(t,Nv,data),tspan,Nv0);
 
-%%% Model output
+%% Model Output
+
 N = Nv(:,1:3);          % Abundance (cells/m^3)
 v = transform(Nv(:,4)); % Acclimation parameter
 Td = T/(60*60*24);      % Run time converted to days
-% Ot = sin(data.A*Td);    % Oscillation time, when application    
 
-%%% Calculation of light exiting the system
-light_out = (exp(-( ...
-    Nv(:,1:2)*data.k(:,1:2)' ...
-    +Nv(:,3).*(v*data.k(:,3)'+(1-v)*data.k(:,4)') ...
-    +ones(size(v))*data.k(:,5)' ...
-    )*data.maxdepth))*data.light_in;
+%%% Prints final abundance at equilibrium
+N_Equilibrium = Nv(length(Nv),1:3)
 
-%%% Print final abundance at equilibrium
-Nv(length(Nv),1:3)  
-
-%%% Save matrix files after each run
-% writematrix(Td)
-% writematrix(Nv)
-% writematrix(light_out)
-% writematrix(Ot)
-
-%%% Plot figures
-figure(1)       % Abundance over time
+%%% Plots abundance with time
+figure(1)       
 plot(Td,N,'LineWidth',3)
 legend('3a strain','3c strain','3d strain','Location','best')
 title('Continuous light')
 xlabel('Time, days')
 ylabel('Cell density, cells m^-3')
-
-figure(2)       % Light exiting the system
-plot(Td,light_out,'LineWidth',3)
-title('Light exiting the system')
-ylabel('umol photons m^-2 s^-1')
-
-figure(3)       % Acclimation over time
-plot(Td,v,'LineWidth',3)
-title('v - Chromatic acclimation parameter')
-
-% figure(4)     % Light oscillations
-% plot(Td,Ot)
-% title('blue light oscillation frequency')

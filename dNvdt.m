@@ -1,8 +1,12 @@
 function Nvdot = dNvdt(t,Nv,data)
 % Nvdot = dNvdt(t,Nv,data)
 
-%%% Remove comment below for oscillating LED lights
-% data.light_in = shift(t, data);
+if data.Constant_LED == 1;
+    data.light_in = data.LED;
+elseif data.LED_Oscillation == 1;
+    data.light_in = shift(t, data);    
+    else data.light_in = data.In.daylight;
+end
 
 v = transform(Nv(4));
 
@@ -24,8 +28,6 @@ vdot = vintegral*(phi*alpha/data.maxdepth);
 
 Nintegral = trapz(data.z,pmax*photons_absorbed./(pmax/phi+photons_absorbed),2);
 Ndot = ((Nintegral/data.maxdepth).*Nv(1:3,:))-data.L*Nv(1:3,:);
-Nvdot = [Ndot;vdot];
 
-% plot(data.wavelengths,data.light_in)
-% keyboard
+Nvdot = [Ndot;vdot];
 end
