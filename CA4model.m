@@ -3,22 +3,20 @@
 % For phytoplankton with 2 fixed & 1 flexible pigment phenotype
 
 %% Initial Conditions
-close all
-clear all
-load('CA4MODELDATA_withcyan.mat')
+load('CA4MODELDATA')
 
 %%% Control In-coming light spectra (0 for off, 1 for on)
 data.Constant_LED = 0;
     data.LED = data.In.green;
     
-data.LED_Oscillation = 1;
+data.LED_Oscillation = 0;
     data.Light1 = data.In.blue;
-    data.Light2 = data.In.cyan_faux;
+    data.Light2 = data.In.green;
     data.frequency = 1;
     % frequency: 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
     % colors: blue, green, cyan, cyan_faux, white
     
-data.Daylight = 0;                   
+data.Daylight = 1;                   
 
 %%% Absorption parameters
 data.CHL = 0;                       % valid from 0.02 - 25 mg m^-3
