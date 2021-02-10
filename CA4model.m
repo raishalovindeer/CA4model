@@ -9,14 +9,14 @@ load('CA4MODELDATA')
 data.Constant_LED = 0;
     data.LED = data.In.green;
     
-data.LED_Oscillation = 0;
-    data.Light1 = data.In.blue;
+data.LED_Oscillation = 1;
+    data.Light1 = data.In.cyan;
     data.Light2 = data.In.green;
     data.frequency = 1;
     % frequency: 5=0.6d | 1=3d | 0.5=6d | 0.3=11d | 0.1=31d |
     % colors: blue, green, cyan, cyan_faux, white
     
-data.Daylight = 1;                   
+data.Daylight = 0;                   
 
 %%% Absorption parameters
 data.CHL = 0;                       % valid from 0.02 - 25 mg m^-3
@@ -46,7 +46,7 @@ data.L = 0.005/(60*60); % /second
 data.k(:,1:4) = data.k(:,1:4)*1E-12;
 
 %%% Depth of water column (m)
-data.maxdepth = 1;     
+data.maxdepth = 60;     
 
 data.zsteps = 21;
 data.z = linspace(0,data.maxdepth,data.zsteps);
@@ -70,8 +70,8 @@ N_Equilibrium = Nv(length(Nv),1:3)
 
 %%% Plots abundance with time
 figure(1)       
-plot(Td,N,'LineWidth',3)
+plot(Td,N,'LineWidth',10)
 legend('3a strain','3c strain','3d strain','Location','best')
-title('Continuous light')
+title('Synechococcus strain abundance')
 xlabel('Time, days')
 ylabel('Cell density, cells m^-3')
